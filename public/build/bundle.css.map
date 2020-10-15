@@ -1,0 +1,14 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "App.svelte",
+    "Card.svelte"
+  ],
+  "sourcesContent": [
+    "<script lang=\"ts\">import Card from \"./Card.svelte\";\n;\nimport { onMount } from 'svelte';\nimport store from './store';\nlet handData = { hand: [] };\nlet fieldData = { field: [] };\nlet message;\nonMount(() => {\n    store.subscribe(currentMessage => {\n        handData = currentMessage;\n    });\n});\n// function onSendMessage() {\n// \tif (message.length > 0) {\n// \t\tstore.sendMessage(message);\n// \t}\n// }\n</script>\n\n<main>\n\t{#each fieldData.field as card}\n\t\t<Card cardData={card} onField={true}/>\n\t{/each}\n\t{#each handData.hand as card}\n\t\t<Card cardData={card}/>\n\t{/each}\n</main>\n\n<style>\n\tmain {\n\t\ttext-align: center;\n\t\tpadding: 1em;\n\t\tmax-width: 240px;\n\t\tmargin: 0 auto;\n\t}\n\n\t@media (min-width: 640px) {\n\t\tmain {\n\t\t\tmax-width: none;\n\t\t}\n\t}\n</style>",
+    "<script lang=\"ts\">import { CardData } from \"./Structs\";\nexport let onField = false;\nexport let cardData = new CardData(\"DEFAULT_NAME\");\nfunction toggleSelect() {\n    cardData.isSelected = !cardData.isSelected;\n    cardData.isFaceUp = true;\n}\n</script>\r\n\r\n<div class=\"card\" \r\nclass:selected={cardData.isSelected} \r\nclass:field={onField}\r\non:click={toggleSelect}>\r\n    {#if cardData.isFaceUp}\r\n        <p>{cardData.name}</p>\r\n        <p>{cardData.attk}</p>\r\n        <p>{cardData.health}</p>\r\n    {:else}\r\n        <p>Hidden</p>\r\n    {/if}\r\n</div>\r\n\r\n<style>\r\n    .card{\r\n        background: #fff;\r\n        padding: 20px;\r\n        border-radius: 6px;\r\n        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);\r\n    }\r\n    .selected{\r\n        border-color: blue;\r\n    }\r\n    .field{\r\n        background: grey;\r\n    }\r\n</style>"
+  ],
+  "names": [],
+  "mappings": "AA6BC,IAAI,eAAC,CAAC,AACL,UAAU,CAAE,MAAM,CAClB,OAAO,CAAE,GAAG,CACZ,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,CAAC,CAAC,IAAI,AACf,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AAC1B,IAAI,eAAC,CAAC,AACL,SAAS,CAAE,IAAI,AAChB,CAAC,AACF,CAAC;ACjBE,mBAAK,CAAC,AACF,UAAU,CAAE,IAAI,CAChB,OAAO,CAAE,IAAI,CACb,aAAa,CAAE,GAAG,CAClB,UAAU,CAAE,GAAG,CAAC,GAAG,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,GAAG,CAAC,AAC9C,CAAC,AACD,uBAAS,CAAC,AACN,YAAY,CAAE,IAAI,AACtB,CAAC,AACD,oBAAM,CAAC,AACH,UAAU,CAAE,IAAI,AACpB,CAAC"
+}
