@@ -3,7 +3,7 @@ import { cardData, HandData } from './Structs';
 import type { FieldData } from './Structs';
 import neffos from 'neffos.js';
 const SERVER = "localhost:8080";
-const ECHO = "/echo";
+const GAME = "/game";
 
 
 const handStore = writable<HandData>({hand:[]});
@@ -11,7 +11,20 @@ const fieldStore = writable<FieldData>({field:[]});
 
 async function dial(endpoint:string) {
     const conn = await neffos.dial(SERVER + endpoint, { v1: {
-        echo: function(nsConn, msg) {
+        _OnNamespaceConnected: function (nsConn, msg) {
+            console.log("Connected to namespace: " + msg.Namespace);
+        },
+        _OnNamespaceDisconnect: function (nsConn, msg) {
+            console.log("Disconnected from namespace: " + msg.Namespace);
+        },
+        _OnRoomJoined: function (nsConn, msg) {
+            console.log("Joined room: " + msg.Room);
+        },
+        room: function(nsConn, msg) {
+            console.log(msg);
+            nsConn.joinRoom(msg.Body);
+        },
+        state: function(nsConn, msg) {
             var hand = { hand: [
                 cardData(msg.Body)
             ]}
@@ -25,7 +38,7 @@ async function dial(endpoint:string) {
 }
 
 try {
-    dial(ECHO);
+    dial(GAME);
 } catch (err) {
     console.log(err);
 }

@@ -5421,19 +5421,25 @@ var app = (function () {
     });
 
     const SERVER = "localhost:8080";
-    const ECHO = "/echo";
+    const GAME = "/game";
     const handStore = writable({ hand: [] });
-    //const socket = new WebSocket('ws://localhost:8080/game');
-    // neffos.dial("localhost:8080/echo", { v1: {
-    //     echo: function (nsConn, msg) {
-    //         var hd = new HandData();
-    //         hd.hand = [new CardData(msg, 1, 1)]
-    //         handStore.set(new HandData())
-    //     }
-    // }});
     async function dial(endpoint) {
         const conn = await neffos.dial(SERVER + endpoint, { v1: {
-                echo: function (nsConn, msg) {
+                _OnNamespaceConnected: function (nsConn, msg) {
+                    console.log("Connected to namespace: " + msg.Namespace);
+                },
+                _OnNamespaceDisconnect: function (nsConn, msg) {
+                    console.log("Disconnected from namespace: " + msg.Namespace);
+                },
+                _OnRoomJoined: function (nsConn, msg) {
+                    console.log("Joined room: " + msg.Room);
+                    nsConn.emit("inRoom", "");
+                },
+                room: function (nsConn, msg) {
+                    console.log(msg);
+                    nsConn.joinRoom(msg.Body);
+                },
+                state: function (nsConn, msg) {
                     var hand = { hand: [
                             cardData(msg.Body)
                         ] };
@@ -5445,7 +5451,7 @@ var app = (function () {
         nsConn.emit("echo", "Greetings!");
     }
     try {
-        dial(ECHO);
+        dial(GAME);
     }
     catch (err) {
         console.log(err);
