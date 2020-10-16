@@ -9,6 +9,14 @@ const GAME = "/game";
 const handStore = writable<HandData>({hand:[]});
 const fieldStore = writable<FieldData>({field:[]});
 
+class RS {
+    cards: CD[];
+}
+
+class CD {
+    name: string
+}
+
 async function dial(endpoint:string) {
     const conn = await neffos.dial(SERVER + endpoint, { v1: {
         _OnNamespaceConnected: function (nsConn, msg) {
@@ -25,11 +33,11 @@ async function dial(endpoint:string) {
             nsConn.joinRoom(msg.Body);
         },
         state: function(nsConn, msg) {
-            var hand = { hand: [
-                cardData(msg.Body)
-            ]}
+            var rs: RS = JSON.parse(msg.Body);
+            console.log(rs);
+            var hand = { hand: rs.cards.map(it => cardData(it.name))}
             console.log(hand);
-            handStore.set(hand)
+            handStore.set(hand);
         }
     }});
 
