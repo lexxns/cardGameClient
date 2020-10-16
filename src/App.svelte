@@ -7,11 +7,13 @@
 
 	let handData: HandData = {hand:[]};
 	let fieldData: FieldData = {field:[]};
-	let message;
 
 	onMount(() => {
-		store.subscribe(currentMessage => {
-			handData = currentMessage;
+		store.subscribeHand(hand => {
+			handData = hand;
+		});
+		store.subscribeField(field => {
+			fieldData = field;
 		});
 	});
 
@@ -39,17 +41,32 @@
 
 <style>
 	main {
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
 		text-align: center;
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
 	}
 
+	.field {
+		position: absolute;
+		height: 300px;
+		width: 600px;
+		top: calc(50% - 360px);
+		left: calc(50% - 370px);
+		display: flex;
+	}
+
 	.hand {
 		position: absolute;
 		height: 300px;
 		width: 600px;
-		top: 60px;
+		top: calc(100% - 360px);
 		left: calc(50% - 300px);
 		display: flex;
 	}

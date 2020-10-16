@@ -10,7 +10,8 @@ const handStore = writable<HandData>({hand:[]});
 const fieldStore = writable<FieldData>({field:[]});
 
 class RS {
-    cards: CD[];
+    hand: CD[];
+    field: CD[];
 }
 
 class CD {
@@ -35,9 +36,11 @@ async function dial(endpoint:string) {
         state: function(nsConn, msg) {
             var rs: RS = JSON.parse(msg.Body);
             console.log(rs);
-            var hand = { hand: rs.cards.map(it => cardData(it.name))}
+            var hand = { hand: rs.hand.map(it => cardData(it.name)) };
+            var field = { field: rs.field.map(it => cardData(it.name)) };
             console.log(hand);
             handStore.set(hand);
+            fieldStore.set(field);
         }
     }});
 
@@ -69,6 +72,7 @@ try {
 // }
 
 export default {
-    subscribe: handStore.subscribe,
+    subscribeHand: handStore.subscribe,
+    subscribeField: fieldStore.subscribe,
     //sendMessage
 }

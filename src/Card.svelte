@@ -12,6 +12,7 @@
 <div class="card" 
 class:selected={cardData.isSelected} 
 class:field={onField}
+class:hand={!onField}
 on:click={toggleSelect}>
     {#if cardData.isFaceUp}
         <h3 class="title">{cardData.name}</h3>
@@ -43,6 +44,9 @@ on:click={toggleSelect}>
  -->
 
 <style>
+    .hand:not(:first-child) {
+        margin-left: -50px;
+    }
     .card{
         display: flex;
         height: 280px;
@@ -53,9 +57,6 @@ on:click={toggleSelect}>
         transition: 0.4s ease-out;
         position: relative;
         left: 0px;
-    }
-    .card:not(:first-child) {
-        margin-left: -50px;
     }
     .card:hover {
         transform: translateY(-20px);
