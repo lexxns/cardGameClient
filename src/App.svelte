@@ -1,38 +1,29 @@
 <script lang="ts">
 	import Card from "./Card.svelte";
-	import type { FieldData, HandData } from "./Structs";
-
 	import { onMount } from 'svelte';
-	import store from './store';
+	import store, { RS } from './store';
 
-	let handData: HandData = {hand:[]};
-	let fieldData: FieldData = {field:[]};
+	let gameData: RS = {
+		hand: [],
+		field: []
+	};
 
 	onMount(() => {
-		store.subscribeHand(hand => {
-			handData = hand;
-		});
-		store.subscribeField(field => {
-			fieldData = field;
+		store.subscribe(data => {
+			gameData = data;
 		});
 	});
-
-	// function onSendMessage() {
-	// 	if (message.length > 0) {
-	// 		store.sendMessage(message);
-	// 	}
-	// }
 </script>
 
 <main>
 	<div class="field">
-		{#each fieldData.field as card}
+		{#each gameData.field as card}
 			<Card cardData={card} onField={true}/>
 		{/each}
 	</div>
 
 	<div class="hand">
-		{#each handData.hand as card}
+		{#each gameData.hand as card}
 			<Card cardData={card}/>
 		{/each}
 	</div>

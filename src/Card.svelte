@@ -60,6 +60,7 @@ on:click={toggleSelect}>
     }
     .card:hover {
         transform: translateY(-20px);
+        z-index: 1;
         transition: 0.4s ease-out;
     }
     .card:hover ~ .card {

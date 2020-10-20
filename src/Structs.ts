@@ -1,9 +1,13 @@
-export function cardData(name: String) {
+export function cardData(
+    id: String,
+    name: String,
+    attk: String,
+    health: String) {
     return {
-        id: "1",
+        id: id,
         name: name,
-        attk: 1,
-        health: 1,
+        attk: attk,
+        health: health,
         isSelected: false,
         isFaceUp: true,
     }
