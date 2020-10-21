@@ -5,11 +5,10 @@ const SERVER = "localhost:8080";
 const GAME = "/game";
 
 export class RS {
-    hand: CardData[];
-    field: CardData[];
+    cards: Map<String,CardData>;
 }
 
-const store = writable<RS>({hand: [], field: []});
+const store = writable<CardData[]>([]);
 
 async function dial(endpoint:string) {
     const conn = await neffos.dial(SERVER + endpoint, { v1: {
@@ -29,7 +28,10 @@ async function dial(endpoint:string) {
         state: function(_, msg) {
             var rs: RS = JSON.parse(msg.Body);
             console.log(rs);
-            store.set(rs);
+            var cards = Object.keys(rs.cards).map(function(key) {
+                return rs.cards[key];
+            });
+            store.set(cards);
         }
     }});
 

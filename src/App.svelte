@@ -1,30 +1,32 @@
 <script lang="ts">
 	import Card from "./Card.svelte";
 	import { onMount } from 'svelte';
-	import store, { RS } from './store';
+	import store from './store';
+import type { CardData } from "./Structs";
 
-	let gameData: RS = {
-		hand: [],
-		field: []
-	};
+	let cards: CardData[] = [];
 
 	onMount(() => {
 		store.subscribe(data => {
-			gameData = data;
+			cards = data;
 		});
 	});
 </script>
 
 <main>
 	<div class="field">
-		{#each gameData.field as card}
-			<Card cardData={card} onField={true}/>
+		{#each cards as card}
+			{#if card.container == "FIELD"}
+				<Card cardData={card}/>
+			{/if}
 		{/each}
 	</div>
 
 	<div class="hand">
-		{#each gameData.hand as card}
-			<Card cardData={card}/>
+		{#each cards as card}
+			{#if card.container == "HAND"}
+				<Card cardData={card}/>
+			{/if}
 		{/each}
 	</div>
 
@@ -32,6 +34,7 @@
 
 <style>
 	main {
+		background-color: #100e17;
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;
 		-khtml-user-select: none;
@@ -54,6 +57,7 @@
 	}
 
 	.hand {
+    	font-family: 'Open Sans', sans-serif;
 		position: absolute;
 		height: 300px;
 		width: 600px;
@@ -66,5 +70,8 @@
 		main {
 			max-width: none;
 		}
+	}
+	:global(body) {
+		background-color: #100e17;
 	}
 </style>

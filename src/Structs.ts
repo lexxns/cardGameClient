@@ -2,12 +2,14 @@ export function cardData(
     id: String,
     name: String,
     attk: String,
-    health: String) {
+    health: String,
+    container: String) {
     return {
         id: id,
         name: name,
         attk: attk,
         health: health,
+        container: container,
         isSelected: false,
         isFaceUp: true,
     }
@@ -18,6 +20,7 @@ export class CardData {
     name: String;
     attk: number;
     health: number;
+    container: String;
     isSelected = false;
     isFaceUp = true;
 
@@ -26,6 +29,7 @@ export class CardData {
         this.name = name,
         this.attk = 1,
         this.health = 1,
+        this.container = "DECK"
         this.isSelected = false,
         this.isFaceUp = false
     }

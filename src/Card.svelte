@@ -1,6 +1,5 @@
 <script lang="ts">
     import { CardData } from "./Structs";
-    export let onField = false;
     export let cardData: CardData = new CardData("DEFAULT_NAME");
 
     function toggleSelect() {
@@ -11,8 +10,8 @@
 
 <div class="card" 
 class:selected={cardData.isSelected} 
-class:field={onField}
-class:hand={!onField}
+class:field={cardData.container == "FIELD"}
+class:hand={cardData.container == "HAND"}
 on:click={toggleSelect}>
     {#if cardData.isFaceUp}
         <h3 class="title">{cardData.name}</h3>
@@ -31,17 +30,6 @@ on:click={toggleSelect}>
         <p>Hidden</p>
     {/if}
 </div>
-
-<!-- 
-    background-color: #100e17;
-    font-family: 'Open Sans', sans-serif;
-    position: absolute;
-    height: 300px;
-    width: 600px;
-    top: 60px;
-    left: calc(50% - 300px);
-    display: flex;
- -->
 
 <style>
     .hand:not(:first-child) {
