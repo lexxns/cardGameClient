@@ -5,7 +5,7 @@ const SERVER = "localhost:8080";
 const GAME = "/game";
 
 export class RS {
-    cards: Map<String,CardData>;
+    cards: Map<string,CardData>;
 }
 
 const store = writable<CardData[]>([]);
@@ -21,9 +21,9 @@ async function dial(endpoint:string) {
         _OnRoomJoined: function (_, msg) {
             console.log("Joined room: " + msg.Room);
         },
-        room: function(nsConn, msg) {
+        room: function(nConn, msg) {
             console.log(msg);
-            nsConn.joinRoom(msg.Body);
+            nConn.joinRoom(msg.Body);
         },
         state: function(_, msg) {
             var rs: RS = JSON.parse(msg.Body);
@@ -39,11 +39,7 @@ async function dial(endpoint:string) {
     nsConn.emit("echo", "Greetings!");
 }
 
-try {
-    dial(GAME);
-} catch (err) {
-    console.log(err);
-}
+dial(GAME).catch(err => console.log(err));
 
 export default {
     subscribe: store.subscribe

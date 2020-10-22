@@ -1,9 +1,9 @@
 export function cardData(
-    id: String,
-    name: String,
-    attk: String,
-    health: String,
-    container: String) {
+    id: string,
+    name: string,
+    attk: string,
+    health: string,
+    container: string) {
     return {
         id: id,
         name: name,
@@ -16,22 +16,22 @@ export function cardData(
 }
 
 export class CardData {
-    id: String;
-    name: String;
+    id: string;
+    name: string;
     attk: number;
     health: number;
-    container: String;
+    container: string;
     isSelected = false;
     isFaceUp = true;
 
-    constructor (name: String) {
-        this.id = "1",
-        this.name = name,
-        this.attk = 1,
-        this.health = 1,
-        this.container = "DECK"
-        this.isSelected = false,
-        this.isFaceUp = false
+    constructor (name: string) {
+        this.id = "1";
+        this.name = name;
+        this.attk = 1;
+        this.health = 1;
+        this.container = "DECK";
+        this.isSelected = false;
+        this.isFaceUp = false;
     }
 }
 
